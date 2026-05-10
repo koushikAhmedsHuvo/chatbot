@@ -1,17 +1,26 @@
 import { axiosInstance } from "./axios";
 
+const AUTH_TOKEN_KEY = "token";
+
 export const signup = async (signupData) => {
   const response = await axiosInstance.post("/auth/signup", signupData);
+  if (response.data?.token) {
+    localStorage.setItem(AUTH_TOKEN_KEY, response.data.token);
+  }
   return response.data;
 };
 
 export const login = async (loginData) => {
   const response = await axiosInstance.post("/auth/login", loginData);
+  if (response.data?.token) {
+    localStorage.setItem(AUTH_TOKEN_KEY, response.data.token);
+  }
   return response.data;
 };
 
 export const logout = async () => {
   const response = await axiosInstance.post("/auth/logout");
+  localStorage.removeItem(AUTH_TOKEN_KEY);
   return response.data;
 };
 
@@ -67,30 +76,36 @@ export async function getStreamToken() {
   return response.data;
 }
 
-export const getGroupMessages = (groupId) => axiosInstance.get(`/groups/${groupId}/messages`).then(res => res.data);
-export const sendGroupMessage = ({ groupId, text }) => axiosInstance.post(`/groups/${groupId}/messages`, { text }).then(res => res.data);
-export const searchUsers = (query) => axiosInstance.get(`/search/users?q=${query}`).then(res => res.data);
-
-
+export const getGroupMessages = (groupId) =>
+  axiosInstance.get(`/groups/${groupId}/messages`).then((res) => res.data);
+export const sendGroupMessage = ({ groupId, text }) =>
+  axiosInstance
+    .post(`/groups/${groupId}/messages`, { text })
+    .then((res) => res.data);
+export const searchUsers = (query) =>
+  axiosInstance.get(`/search/users?q=${query}`).then((res) => res.data);
 
 // frontend/src/lib/api.js
-export const chatWithMentor = async ({ message, mode = "general", aiProvider = "auto" }) => {
-  const response = await axiosInstance.post("/ai/mentor", { 
-    message, 
-    mode, 
-    aiProvider 
+export const chatWithMentor = async ({
+  message,
+  mode = "general",
+  aiProvider = "auto",
+}) => {
+  const response = await axiosInstance.post("/ai/mentor", {
+    message,
+    mode,
+    aiProvider,
   });
   return response.data;
 };
-
 
 // Replace these two functions:
 
 export const createGroup = async ({ name, memberIds = [] }) => {
   try {
-    const response = await axiosInstance.post("/groups", { 
-      name, 
-      memberIds 
+    const response = await axiosInstance.post("/groups", {
+      name,
+      memberIds,
     });
     return response.data;
   } catch (error) {

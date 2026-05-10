@@ -73,7 +73,7 @@ export async function signup(req, res) {
     const userWithoutPassword = newUser.toObject();
     delete userWithoutPassword.password;
 
-    res.status(201).json({ success: true, user: userWithoutPassword });
+    res.status(201).json({ success: true, token, user: userWithoutPassword });
   } catch (error) {
     console.log("Error in signup controller:", error);
     res.status(500).json({ message: "Internal Server Error" });

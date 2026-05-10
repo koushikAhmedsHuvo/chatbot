@@ -3,21 +3,15 @@ import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 
 let socket = null;
+const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || "http://localhost:5001";
 
 export const useSocket = () => {
   const [isConnected, setIsConnected] = useState(false);
   const [socketInstance, setSocketInstance] = useState(null);
 
   useEffect(() => {
-    const getCookie = (name) => {
-      const value = `; ${document.cookie}`;
-      const parts = value.split(`; ${name}=`);
-      if (parts.length === 2) return parts.pop().split(';').shift();
-      return null;
-    };
+    const token = localStorage.getItem("token");
 
-    const token = getCookie("jwt");
-    
     if (!token) {
       console.log("No token found - user may not be logged in");
       return;
@@ -29,7 +23,7 @@ export const useSocket = () => {
       return;
     }
 
-    socket = io("http://localhost:5001", {
+    socket = io(SOCKET_URL, {
       auth: { token },
       withCredentials: true,
     });
