@@ -1,18 +1,24 @@
 // frontend/src/lib/axios.js
 import axios from "axios";
 
-// const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5001/api";
-
 export const axiosInstance = axios.create({
   baseURL: "https://chatbot-mmwj.onrender.com/api",
-  // baseURL: API_URL,
-  withCredentials: true, // This is IMPORTANT for cookies
+  withCredentials: true,
   headers: {
     "Content-Type": "application/json",
   },
 });
 
-// Add response interceptor for debugging
+// Add a request interceptor to include the token
+axiosInstance.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token"); // Or wherever the token is stored
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+// Add a response interceptor for debugging
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
