@@ -22,7 +22,7 @@ const PORT = process.env.PORT || 5001;
 const server = http.createServer(app);
 const io = initializeSocket(server);
 
-// backend/server.js - Check CORS configuration
+// Updated CORS configuration to include the deployed frontend URL
 app.use(
   cors({
     origin: [
@@ -32,12 +32,12 @@ app.use(
       "http://192.168.137.1:5173", // Add your local IP
       "http://192.168.1.100:4173",
       "http://172.16.240.19:5173/",
-      /http:\/\/192\.168\.\d+\.\d+:\d+/, 
+      "https://chatbot-b8rxz8tw1-koushik-ahmeds-projects-6b305285.vercel.app", // Added deployed frontend URL
     ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
-  })
+  }),
 );
 
 app.use(express.json({ limit: "50mb" }));
