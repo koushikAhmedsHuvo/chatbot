@@ -114,7 +114,7 @@ export async function login(req, res) {
     const userWithoutPassword = user.toObject();
     delete userWithoutPassword.password;
 
-    res.json({ success: true, user: userWithoutPassword });
+    res.json({ success: true, token, user: userWithoutPassword });
 
   } catch (error) {
     console.log("Error in login controller:", error);
