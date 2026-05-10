@@ -32,6 +32,7 @@ app.use(
       "http://192.168.137.1:5173", // Add your local IP
       "http://192.168.1.100:4173",
       "http://172.16.240.19:5173/",
+      "https://chatbot-zeta-ten-30.vercel.app",
       "https://chatbot-b8rxz8tw1-koushik-ahmeds-projects-6b305285.vercel.app", // Previous deployed frontend URL
       "https://chatbot-21lxdgssk-koushik-ahmeds-projects-6b305285.vercel.app", // New deployed frontend URL
       "https://chatbot-buuaezw29-koushik-ahmeds-projects-6b305285.vercel.app", // Added new deployed frontend URL
